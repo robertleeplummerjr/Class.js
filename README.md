@@ -27,10 +27,10 @@ class MyClass extends OtherClass
 ```
 
 So we have a certain order of creating classes.  If we were to break down the process it would be:
-*I want to make a class
-*I want to name it "MyClass"
-*optionally I could extend MyClass with another class, in the above scenario it is "OtherClass"
-*I want a certain method to be called when it is instantiated
+* I want to make a class
+* I want to name it "MyClass"
+* optionally I could extend MyClass with another class, in the above scenario it is "OtherClass"
+* I want a certain method to be called when it is instantiated
 
 Javascript really doesn't have this ability by itself, but by using some simple markup, we can preserve this exact order of programming.  Also, we can take advantage of javascript's prototyping.
 Using JCB to create a basic object:
@@ -57,10 +57,10 @@ Class('OtherClass', function() {});
 Class('MyClass', function() {}, OtherClass);
 ```
 So here we preserve the order of creating classes.  If we were to break down the process it would be:
-*I want to make a class
-*I want to name it "MyClass"
-*optionally I could extend MyClass with another class, in the above scenario it is "OtherClass"
-*I want a certain method to be called when it is instantiated
+* I want to make a class
+* I want to name it "MyClass"
+* optionally I could extend MyClass with another class, in the above scenario it is "OtherClass"
+* I want a certain method to be called when it is instantiated
 
 Anonymous extending:
 ```javascript
