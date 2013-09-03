@@ -1,7 +1,7 @@
 Javacript-Is-A-Classy-Beast
 ===========================
 
-JCB - A class (prototyping for humans) experiment for JavaScript; performant and resource light
+JCB - A class (prototyping for humans) lib for JavaScript; performant and resource light
 
 Prototyping doesn't have to be hard, or at least this tiny lib tries to make it that way.
 
@@ -26,13 +26,13 @@ class MyClass extends OtherClass
 }
 ```
 
-So we have a certain order of creating classes.  If we were to break down the process it would be:
+In c#, and in most programatic languages, there is a certain order of creating classes.  Breaking down the process in order:
 * I want to make a class
 * I want to name it "MyClass"
 * optionally I could extend MyClass with another class, in the above scenario it is "OtherClass"
 * I want a certain method to be called when it is instantiated
 
-Javascript really doesn't have this ability by itself, but by using some simple markup, we can preserve this exact order of programming.  Also, we can take advantage of javascript's prototyping.
+Javascript really doesn't have this ability by itself, but by using JCB, we can preserve this exact order of programming.  Also, we can take advantage of javascript's prototyping.
 Using JCB to create a basic object:
 ```javascript
 //"MyClass" will be generated on the global context here, which is the "window" variable
@@ -56,7 +56,7 @@ Class('OtherClass', function() {});
 
 Class('MyClass', function() {}, OtherClass);
 ```
-So here we preserve the order of creating classes.  If we were to break down the process it would be:
+In javascript with JCB, we now gain the this ability and the order of creating classes.  Breaking down the process in order:
 * I want to make a class
 * I want to name it "MyClass"
 * optionally I could extend MyClass with another class, in the above scenario it is "OtherClass"
@@ -80,3 +80,5 @@ var MyClass = OtherClass.extend({
     }
 });
 ```
+
+"Class" is fully compatible with apply and call for creating classes in whatever scope you like.
