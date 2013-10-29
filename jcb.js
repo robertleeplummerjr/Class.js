@@ -1,4 +1,4 @@
-window.Class = function(name, _class, _base) {
+var Class = function(name, _class, _base) {
     var construct = _class.construct || _class,
         _static = {},
         parent;
