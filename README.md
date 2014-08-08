@@ -54,7 +54,13 @@ Extending (notice here that the anon function is going to be used as the constru
 ```javascript
 Class('OtherClass', function() {});
 
-Class('MyClass', function() {}, OtherClass);
+Class('MyClass', { extends: OtherClass,
+
+    construct: function() {
+        //this.parent === OtherClass
+    }
+
+});
 ```
 In javascript with JCB, we now gain the this ability and the order of creating classes.  Breaking down the process in order:
 * I want to make a class
