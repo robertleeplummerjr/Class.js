@@ -1,3 +1,11 @@
+/**
+ *
+ * @param {String} name
+ * @param {Function|Object}_class
+ * @param {Function} _base
+ * @returns {*}
+ * @constructor
+ */
 var Class = function(name, _class, _base) {
     var construct = _class.construct || _class,
         _static = {},
@@ -10,10 +18,15 @@ var Class = function(name, _class, _base) {
             _static = _class;
         }
 
+
+        if (construct.extends !== undefined) {
+            _base = construct.extends;
+        }
+
         //extend and set parent
         if (_base && (parent = _base.prototype)) {
             for (var attr in parent) {
-                if (attr != 'construct') {
+                if (attr !== 'construct') {
                     _static[attr] = _class[attr] || parent[attr];
                 }
             }
