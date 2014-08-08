@@ -1,9 +1,9 @@
-Javacript-Is-A-Classy-Beast
+Class.js
 ===========================
 
-JCB - A class (prototyping for humans) lib for JavaScript; performant and resource light
+A class & prototyping lib for JavaScript.  Performant and resource light.
 
-Prototyping doesn't have to be hard, or at least this tiny lib tries to make it that way.
+Prototyping doesn't have to be hard in js, or at least this tiny lib tries to make it that way.
 
 What you may be used to (this example is in C#, but generally it is very similar in most languages):
 ```c#
