@@ -32,8 +32,8 @@ In c#, and in most programatic languages, there is a certain order of creating c
 * optionally I could extend MyClass with another class, in the above scenario it is "OtherClass"
 * I want a certain method to be called when it is instantiated
 
-Javascript really doesn't have this ability by itself, but by using JCB, we can preserve this exact order of programming.  Also, we can take advantage of javascript's prototyping.
-Using JCB to create a basic object:
+Javascript really doesn't have this ability by itself, but by using Class.js, we can preserve this exact order of programming.  Also, we can take advantage of javascript's prototyping.
+Using Class.js to create a basic object:
 ```javascript
 //"MyClass" will be generated on the global context here, which is the "window" variable
 Class('MyClass', {
@@ -62,7 +62,7 @@ Class('MyClass', { extends: OtherClass,
 
 });
 ```
-In javascript with JCB, we now gain the this ability and the order of creating classes.  Breaking down the process in order:
+In javascript with Class.js, we now gain the this ability and the order of creating classes.  Breaking down the process in order:
 * I want to make a class
 * I want to name it "MyClass"
 * optionally I could extend MyClass with another class, in the above scenario it is "OtherClass"
