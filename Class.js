@@ -7,7 +7,10 @@
  * @constructor
  */
 var Class = function(name, _class, _base) {
-    var construct = _class.construct || _class,
+	"use strict";
+
+    var context = this,
+	    construct = _class.construct || _class,
         _static = {},
         parent;
 
@@ -17,7 +20,6 @@ var Class = function(name, _class, _base) {
         if (typeof _class == "object") {
             _static = _class;
         }
-
 
         if (construct.extends !== undefined) {
             _base = construct.extends;
@@ -42,7 +44,7 @@ var Class = function(name, _class, _base) {
             } else {
                 child = typeOrChild;
             }
-            return Class(type, child, construct);
+            return Class.call(context, type, child, construct);
         };
 
         construct.prototype = _static;
