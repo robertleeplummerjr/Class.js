@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>({{pass}}|{{fail}}) {{title}} - Testify Suite</title>
+	<script src="../bower_components/testify.js/Testify.js"></script>
+	<script src="../bower_components/vue/dist/vue.js"></script>
+	<script src="../Class.js"></script>
+	<script>
+		var	tf = new Testify('Class.js Test Suite');
+
+		tf.test('Instantiation', function() {
+			//basic usage
+			Class('Base', {
+				construct: function() {
+					this.happy = true;
+				},
+				isHappy: function() {
+					return this.happy;
+				}
+			});
+
+			var base = new Base();
+			tf.assertEquals(base.isHappy(), true, 'Construct created correctly, and is happy');
+		});
+
+		tf.test('Child extending parent', function() {
+			Class('Child', { extends: Base,
+				construct: function() {
+					this.parent.construct();
+				}
+			});
+
+			var child = new Child();
+			tf.assertEquals(child.instanceOf, Child, 'type of Child correct');
+			tf.assertEquals(child.parent.instanceOf, Base, 'type of Child parent correct');
+		});
+
+		tf.test('Anonymous extending', function() {
+			var Anon = Child.extend({
+				construct: function() {
+				}
+			});
+
+			var anon = new Anon();
+
+			tf.assertEquals(anon.instanceOf, Anon, 'Type instance resolves');
+			tf.assertEquals(anon.parent.instanceOf, Child, 'Hierarchy properly resolved to parent');
+			tf.assertEquals(anon.parent.parent.instanceOf, Base, 'Hierarchy properly resolved to base parent');
+		});
+
+		tf.test('Named extending', function() {
+			Child.extend("Named", {
+				construct: function() {
+
+				}
+			});
+
+			var named = new Named();
+
+			tf.assertEquals(named.instanceOf, Named, 'Type instance resolves');
+		});
+
+		tf.test('Custom scope', function() {
+			var MyObj = {};
+			Class.call(MyObj, "AttrOfMyObj", {
+				construct: function() {
+
+				},
+				subAttribute: 'test'
+			});
+
+			var attrOfMyObj = new MyObj.AttrOfMyObj();
+			tf.assertEquals(attrOfMyObj.subAttribute, 'test', 'Custom scope works');
+		});
+
+		tf.run();
+	</script>
+</head>
+<body>
+
+</body>
+<script>
+	document.body.innerHTML = Testify.report.html.ui;
+	Testify.report.html(tf);
+</script>
+</html>
