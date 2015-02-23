@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>Class.js</title>
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/superhero/bootstrap.min.css" rel="stylesheet">
+	<style>
+		body {
+			width: 450px;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+		}
+		h1,h2 {
+			padding-top: 30px;
+		}
+		p, h2, pre {
+			width: 100%;
+			text-align: left;
+		}
+		.catchphrase {
+			text-align: center;
+		}
+		pre, pre code {
+			font-family: monospace;
+			font-size: 8px;
+		}
+		ul {
+			text-align: left;
+		}
+
+
+	</style>
+
+	<script>
+		function getSource(scriptId, codeId) {
+			var source = document.getElementById(scriptId).innerHTML,
+					scriptShow = document.getElementById(codeId);
+
+			if (scriptShow.innerHTML.length > 0) {
+				scriptShow.innerHTML = '';
+			} else {
+				scriptShow.innerHTML = source
+						.replace('(function() {', '')
+						.replace('})();', '')
+						.replace(/\n\n\t/, '')
+						.replace(/\n\t/g, '\n');
+			}
+		}
+	</script>
+</head>
+<body>
+	<h1>Class.js</h1>
+	<p class="catchphrase">
+		<em class="text-primary">A Class lib for Javascript<br>
+			...yes, Javascript has Class</em>
+	</p>
+	<p>
+		For some <b>stupid reason</b> Javascript as this time doesn't have a Class system similar to most programming environments.
+		The truth is, classes doesn't have to be difficult in Javascript, this lib ensures that.
+	</p>
+	<p>
+		What you may be used to (this example is in C#, but generally it is very similar in most languages):
+	</p>
+	<pre>class MyClass
+{
+    public MyClass()
+    {
+
+    }
+}</pre>
+	<p>
+		or
+	</p>
+	<pre>class MyClass extends OtherClass
+{
+	public MyClass()
+	{
+
+	}
+}</pre>
+	<p>In c#, and in most programmatic languages, there is a certain order of creating classes. Breaking down the process in order:</p>
+	<ul>
+		<li>I want to make a class</li>
+		<li>I want to name it "MyClass"</li>
+		<li>optionally I could extend MyClass with another class, in the above scenario it is "OtherClass"</li>
+		<li>I want a certain method to be called when it is instantiated</li>
+	</ul>
+	<p>
+		Javascript really doesn't have this ability by itself, but by using Class.js, we can preserve this exact order
+		of programming. Also, we can take advantage of Javascript prototyping.
+	</p>
+	<p>
+		Using Class.js to create a basic object:
+	</p>
+	<pre><code>//"MyClass" will be generated on the global context here, which is the "window" variable
+Class('MyClass', {
+	//"construct" is the method called on instantiation/construction
+	construct: function() {
+		alert('I am called when constructed');
+	},
+	//"otherMethod" is a generic method
+	otherMethod: function() {
+		alert('I am called when you want me to');
+	}
+});
+
+//"MyClass" was generated, not lets instantiate a new instance of it
+var myClass = new MyClass();</code></pre>
+	<p>Extending (notice here that the anon function is going to be used as the construct function):</p>
+	<pre><code>Class('OtherClass', function() {});
+
+Class('MyClass', { extends: OtherClass,
+
+	construct: function() {
+		//this.parent === OtherClass
+	}
+
+});</code></pre>
+	<p>In javascript with Class.js, we now gain the this ability and the order of creating classes.
+		Breaking down the process in order:</p>
+	<ul>
+		<li>I want to make a class</li>
+		<li>I want to name it "MyClass"</li>
+		<li>optionally I could extend MyClass with another class, in the above scenario it is "OtherClass"</li>
+		<li>I want a certain method to be called when it is instantiated</li>
+	</ul>
+	<p>Anonymous extending:</p>
+	<pre><code>Class('OtherClass', function() {});
+var MyClass = OtherClass.extend({
+	construct: function() {
+		alert('I am called when constructed');
+	}
+});
+
+//Parent - Child relationships (hierarchy not limited):
+
+Class('OtherClass', function() {});
+var MyClass = OtherClass.extend({
+	construct: function() {
+		alert(this.parent.typeOf);
+	}
+});</code></pre>
+	<p>"Class" is fully compatible with apply and call for creating classes in whatever scope you like.</p>
+</body>
+</html>
