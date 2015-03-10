@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8" />
 	<title>({{pass}}|{{fail}}) {{title}} - Testify Suite</title>
 	<script src="../bower_components/testify.js/Testify.js"></script>
 	<script src="../bower_components/vue/dist/vue.js"></script>
@@ -71,6 +72,26 @@
 
 			var attrOfMyObj = new MyObj.AttrOfMyObj();
 			tf.assertEquals(attrOfMyObj.subAttribute, 'test', 'Custom scope works');
+		});
+
+		tf.test('Static items', function() {
+			Class('Base', {
+				Static: {
+					items: [null, null, null],
+					getItems: function() {
+						return Base.items;
+					}
+				},
+				construct: function() {
+
+				},
+				subAttribute: 'test'
+			});
+
+			var base = new Base();
+
+			tf.assertEquals(Base.getItems().length, 3, 'Proper number of static items');
+			tf.assertEquals(base.getItems, undefined, 'Static items do not exist on instance');
 		});
 
 		tf.run();

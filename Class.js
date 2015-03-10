@@ -11,16 +11,25 @@ var Class = function(name, _class, _base) {
 
     var context = this,
 	    construct = _class.construct || _class,
+	    _staticItems = _class.Static || null,
         _static = {},
-        parent;
+	    _prototype = {},
+        parent,
+	    prop;
 
     if (construct) {
         //create static methods/attributes
         _class.typeOf = name;
 	    _class.instanceOf = construct;
         if (typeof _class == "object") {
-            _static = _class;
+	        _prototype = _class;
         }
+
+	    if (_staticItems !== null) {
+		    for(prop in _staticItems) if (_staticItems.hasOwnProperty(prop)) {
+			    construct[prop] = _staticItems[prop];
+		    }
+	    }
 
         if (_class.extends !== undefined) {
             _base = _class.extends;
@@ -28,11 +37,11 @@ var Class = function(name, _class, _base) {
 
         //extend and set parent
         if (_base && (parent = _base.prototype)) {
-            for (var attr in parent) if (parent.hasOwnProperty(attr) && attr !== 'construct') {
-                _static[attr] = _class[attr] || parent[attr];
+            for (prop in parent) if (parent.hasOwnProperty(prop) && prop !== 'construct') {
+	            _prototype[prop] = _class[prop] || parent[prop];
             }
             //set parent attribute to what is being inherited
-            _static.parent = parent;
+	        _prototype.parent = parent;
         }
 
         //make ability to extend as anon
@@ -46,7 +55,7 @@ var Class = function(name, _class, _base) {
             return Class.call(context, type, child, construct);
         };
 
-        construct.prototype = _static;
+        construct.prototype = _prototype;
 
         //this defaults to window, extend with name, and return;
         return (this || window)[name] = construct;
