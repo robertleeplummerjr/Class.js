@@ -50,6 +50,7 @@ Class('MyClass', {
 //"MyClass" was generated, not lets instantiate a new instance of it
 var myClass = new MyClass();
 ```
+
 Extending (notice here that the anon function is going to be used as the construct function):
 ```javascript
 Class('OtherClass', function() {});
@@ -76,9 +77,10 @@ var MyClass = OtherClass.extend({
         alert('I am called when constructed');
     }
 });
+```
 
 Parent - Child relationships (hierarchy not limited):
-
+```javascript
 Class('OtherClass', function() {});
 var MyClass = OtherClass.extend({
     construct: function() {
@@ -86,5 +88,22 @@ var MyClass = OtherClass.extend({
     }
 });
 ```
+
+Static properties and functions:
+```javascript
+Class('MyClass', {
+	Static: {
+		items: [true, true, true],
+		getItems: function() {
+			return MyClass.items;
+		}
+	},
+	construct: function() {},
+	method: function() {}
+});
+
+var items = MyClass.getItems();
+```
+
 
 "Class" is fully compatible with apply and call for creating classes in whatever scope you like.
