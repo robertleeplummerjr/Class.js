@@ -94,6 +94,26 @@
 			tf.assertEquals(base.getItems, undefined, 'Static items do not exist on instance');
 		});
 
+		tf.test('Namespaces', function() {
+			var seven = 5;
+			Class('Base', {
+				construct: function() {
+					seven++;
+				}
+			});
+			Base.Class('Child', {
+				construct: function() {
+					seven++;
+				}
+			});
+
+			new Base();
+			new Base.Child();
+
+			tf.assertNotEquals(Base.Child, undefined, 'Namespace Base.Child exists');
+			tf.assertEquals(seven, 7, 'Namespace called construct correctly in both parent and child');
+		});
+
 		tf.run();
 	</script>
 </head>

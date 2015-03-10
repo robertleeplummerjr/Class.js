@@ -26,7 +26,7 @@ class MyClass extends OtherClass
 }
 ```
 
-In c#, and in most programatic languages, there is a certain order of creating classes.  Breaking down the process in order:
+In c#, and in most programmatic languages, there is a certain order of creating classes.  Breaking down the process in order:
 * I want to make a class
 * I want to name it "MyClass"
 * optionally I could extend MyClass with another class, in the above scenario it is "OtherClass"
@@ -103,6 +103,18 @@ Class('MyClass', {
 });
 
 var items = MyClass.getItems();
+```
+
+Namespaces:
+```javascript
+Class('Base', {
+	construct: function() {}
+});
+Base.Class('Child', {
+	construct: function() {}
+});
+
+var items = new Base.Child();
 ```
 
 

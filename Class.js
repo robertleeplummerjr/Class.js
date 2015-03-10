@@ -31,6 +31,10 @@ var Class = function(name, _class, _base) {
 		    }
 	    }
 
+	    construct.Class = function(name) {
+		    return Class.apply(construct, arguments);
+	    };
+
         if (_class.extends !== undefined) {
             _base = _class.extends;
         }
