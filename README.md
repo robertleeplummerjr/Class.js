@@ -107,15 +107,17 @@ var items = MyClass.getItems();
 
 Namespaces:
 ```javascript
-Class('Base', {
-	construct: function() {}
-});
-Base.Class('Child', {
-	construct: function() {}
-});
+Namespace('Project.Tools').
+    Class('Hammer', {
+        construct: function() {}
+    }).
+    Class('Nail', {
+        construct: function() {}
+    });
 
-var items = new Base.Child();
+var hammer = new Project.Tools.Hammer(),
+    nail = new Project.Tools.Nail();
 ```
 
 
-"Class" is fully compatible with apply and call for creating classes in whatever scope you like.
+"Class" & "Namespace" are fully compatible with apply and call for creating classes in whatever scope you like.
