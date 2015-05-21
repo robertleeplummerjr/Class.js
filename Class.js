@@ -81,7 +81,8 @@ var Class = (function() {
                 scopePath,
                 namespace,
                 max = namesParts.length,
-                i = 1;
+                i = 1,
+                nsReturn = null;
 
             if ((scopePath = scope[namesParts[0]]) === undefined) {
                 scopePath = scope[namesParts[0]] = {};
@@ -91,11 +92,13 @@ var Class = (function() {
             for (;i < max; i++) if (scopePath[namesParts[i]] === undefined) {
                 scopePath = scopePath[namesParts[i]] = {};
                 exists = false;
+            } else {
+                nsReturn = scopePath[namesParts[i]];
             }
 
             namespace = scopePath;
 
-            if (exists) return namespace;
+            if (exists) return (nsReturn || namespace);
 
             namespace.Class = function() {
                 Class.apply(namespace, arguments);
