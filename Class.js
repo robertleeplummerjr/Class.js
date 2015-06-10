@@ -24,9 +24,10 @@ var Class = (function() {
                     _prototype = _class;
                 }
 
+	            //give both prototype and constructor access to static items
                 if (_staticItems !== null) {
                     for(prop in _staticItems) if (_staticItems.hasOwnProperty(prop)) {
-                        construct[prop] = _staticItems[prop];
+	                    _prototype[prop] = construct[prop] = _staticItems[prop];
                     }
                 }
 

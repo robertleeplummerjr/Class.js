@@ -106,7 +106,8 @@
 			var base = new Base();
 
 			tf.assertEquals(Base.getItems().length, 3, 'Proper number of static items');
-			tf.assertEquals(base.getItems, undefined, 'Static items do not exist on instance');
+			tf.assertEquals(base.getItems, Base.getItems, 'Static items do exist on instance');
+
             delete Base;
 		});
 
