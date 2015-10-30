@@ -1,194 +1,211 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title>({{pass}}|{{fail}}) {{title}} - Testify Suite</title>
-	<script src="../bower_components/testify.js/Testify.js"></script>
-	<script src="../bower_components/vue/dist/vue.js"></script>
-	<script src="../Class.js"></script>
-	<script>
-		var	tf = new Testify('Class.js Test Suite');
+  <meta charset="utf-8" />
+  <title>({{pass}}|{{fail}}) {{title}} - Testify Suite</title>
+  <script src="../bower_components/testify.js/Testify.js"></script>
+  <script src="../bower_components/vue/dist/vue.js"></script>
+  <script src="../Class.js"></script>
+  <script>
+    var  tf = new Testify('Class.js Test Suite');
 
-		tf.test('Instantiation', function() {
-			//basic usage
-			Class('Base', {
-				construct: function() {
-					this.happy = true;
-				},
-				isHappy: function() {
-					return this.happy;
-				}
-			});
+    tf.test('Instantiation', function() {
+      //basic usage
+      Class('Base', {
+        construct: function() {
+          this.happy = true;
+        },
+        isHappy: function() {
+          return this.happy;
+        }
+      });
 
-			var base = new Base();
-			tf.assertEquals(base.isHappy(), true, 'Construct created correctly, and is happy');
+      var base = new Base();
+      tf.assertEquals(base.isHappy(), true, 'Construct created correctly, and is happy');
             delete Base;
-		});
+    });
 
-		tf.test('Child extending parent', function() {
-            Class('Base', {
-                construct: function() {}
-            });
-			Class('Child', { extends: Base,
-				construct: function() {
-					this.parent.construct();
-				}
-			});
+    tf.test('Child extending parent', function() {
+      Class('Base', {
+          construct: function() {}
+      });
+      Class('Child', { extends: Base,
+        construct: function() {
+          this.parent.construct();
+        }
+      });
 
-			var child = new Child();
-			tf.assertEquals(child.instanceOf, Child, 'type of Child correct');
-			tf.assertEquals(child.parent.instanceOf, Base, 'type of Child parent correct');
-            delete Child;
-            delete Base;
-		});
+      var child = new Child();
+      tf.assertEquals(child.instanceOf, Child, 'type of Child correct');
+      tf.assertEquals(child.parent.instanceOf, Base, 'type of Child parent correct');
+      delete Child;
+      delete Base;
+    });
 
-		tf.test('Anonymous extending', function() {
-            Class('Base', {});
-            Class('Child', {extends: Base});
-			var Anon = Child.extend({
-				construct: function() {
-				}
-			});
+    tf.test('Anonymous extending', function() {
+      Class('Base', {});
+      Class('Child', {extends: Base});
+      var Anon = Child.extend({
+        construct: function() {
+        }
+      });
 
-			var anon = new Anon();
+      var anon = new Anon();
 
-			tf.assertEquals(anon.instanceOf, Anon, 'Type instance resolves');
-			tf.assertEquals(anon.parent.instanceOf, Child, 'Hierarchy properly resolved to parent');
-			tf.assertEquals(anon.parent.parent.instanceOf, Base, 'Hierarchy properly resolved to base parent');
+      tf.assertEquals(anon.instanceOf, Anon, 'Type instance resolves');
+      tf.assertEquals(anon.parent.instanceOf, Child, 'Hierarchy properly resolved to parent');
+      tf.assertEquals(anon.parent.parent.instanceOf, Base, 'Hierarchy properly resolved to base parent');
 
-            delete Anon;
-            delete Child;
-            delete Base;
-		});
+      delete Anon;
+      delete Child;
+      delete Base;
+    });
 
-		tf.test('Named extending', function() {
-            Class('Child', {});
-			Child.extend("Named", {
-				construct: function() {
+    tf.test('Named extending', function() {
+      Class('Child', {});
+      Child.extend("Named", {
+        construct: function() {
 
-				}
-			});
+        }
+      });
 
-			var named = new Named();
+      var named = new Named();
 
-			tf.assertEquals(named.instanceOf, Named, 'Type instance resolves');
-            delete Child;
-            delete Named;
-		});
+      tf.assertEquals(named.instanceOf, Named, 'Type instance resolves');
+      delete Child;
+      delete Named;
+    });
 
-		tf.test('Custom scope', function() {
-			var MyObj = {};
-			Class.call(MyObj, "AttrOfMyObj", {
-				construct: function() {
+    tf.test('Custom scope', function() {
+      var MyObj = {};
+      Class.call(MyObj, "AttrOfMyObj", {
+        construct: function() {
 
-				},
-				subAttribute: 'test'
-			});
+        },
+        subAttribute: 'test'
+      });
 
-			var attrOfMyObj = new MyObj.AttrOfMyObj();
-			tf.assertEquals(attrOfMyObj.subAttribute, 'test', 'Custom scope works');
-		});
+      var attrOfMyObj = new MyObj.AttrOfMyObj();
+      tf.assertEquals(attrOfMyObj.subAttribute, 'test', 'Custom scope works');
+    });
 
-		tf.test('Static items', function() {
-			Class('Base', {
-				Static: {
-					items: [null, null, null],
-					getItems: function() {
-						return Base.items;
-					}
-				},
-				construct: function() {
+    tf.test('Static items', function() {
+      Class('Base', {
+        Static: {
+          items: [null, null, null],
+          getItems: function() {
+            return Base.items;
+          }
+        },
+        construct: function() {
 
-				},
-				subAttribute: 'test'
-			});
+        },
+        subAttribute: 'test'
+      });
 
-			var base = new Base();
+      var base = new Base();
 
-			tf.assertEquals(Base.getItems().length, 3, 'Proper number of static items');
-			tf.assertEquals(base.getItems, Base.getItems, 'Static items do exist on instance');
+      tf.assertEquals(Base.getItems().length, 3, 'Proper number of static items');
+      tf.assertEquals(base.getItems, Base.getItems, 'Static items do exist on instance');
 
-            delete Base;
-		});
+      delete Base;
+    });
 
-		tf.test('Namespaces', function() {
-			var seven = 5;
+    tf.test('Namespace', function() {
+      var six = 5;
 
-			Namespace('Base').
-                Class('Child1', {
-                    construct: function() {
-                        seven++;
-                    }
-                }).
-                Class('Child2', {
-                    construct: function() {
-                        seven++;
-                    }
-                });
-
-			new Base.Child1();
-			new Base.Child2();
-
-			tf.assertNotEquals(Base.Child1, undefined, 'Namespace Base.Child exists');
-			tf.assertEquals(seven, 7, 'Namespace called construct correctly in both parent and child');
-            delete Base;
-		});
-
-        tf.test('Child Namespaces', function() {
-            var seven = 5;
-
-            Namespace('Namespace1.Namespace2').
-                    Class('Child1', {
-                        construct: function() {
-                            seven++;
-                        }
-                    }).
-                    Class('Child2', {
-                        construct: function() {
-                            seven++;
-                        }
-                    });
-
-            new Namespace1.Namespace2.Child1();
-            new Namespace1.Namespace2.Child2();
-
-            tf.assertNotEquals(Namespace1.Namespace2.Child1, undefined, 'Namespace Base.Child exists');
-            tf.assertEquals(seven, 7, 'Namespace called construct correctly in both parent and child');
-            delete Namespace1;
+      Namespace('Base').
+        Class('Child1', {
+          construct: function() {
+            six++;
+          }
         });
 
-        tf.test('Child Namespaces on custom scope', function() {
-            var seven = 5,
-                    scope = {};
+      new Base.Child1();
 
-            Namespace.call(scope, 'Namespace1.Namespace2').
-                    Class('Child1', {
-                        construct: function() {
-                            seven++;
-                        }
-                    }).
-                    Class('Child2', {
-                        construct: function() {
-                            seven++;
-                        }
-                    });
+      tf.assertNotEquals(Base.Child1, undefined, 'Namespace Base.Child exists');
+      tf.assertEquals(six, 6, 'Namespace called construct correctly in both parent and child');
+      delete Base;
+    });
 
-            new scope.Namespace1.Namespace2.Child1();
-            new scope.Namespace1.Namespace2.Child2();
+    tf.test('Namespaces', function() {
+      var seven = 5;
 
-            tf.assertNotEquals(scope.Namespace1.Namespace2.Child1, undefined, 'Namespace Base.Child exists');
-            tf.assertEquals(seven, 7, 'Namespace called construct correctly in both parent and child');
-            delete scope.Namespace1;
+      Namespace('Base').
+        Class('Child1', {
+          construct: function() {
+            seven++;
+          }
+        }).
+        Class('Child2', {
+          construct: function() {
+            seven++;
+          }
         });
 
-		tf.run();
-	</script>
+      new Base.Child1();
+      new Base.Child2();
+
+      tf.assertNotEquals(Base.Child1, undefined, 'Namespace Base.Child exists');
+      tf.assertEquals(seven, 7, 'Namespace called construct correctly in both parent and child');
+            delete Base;
+    });
+
+    tf.test('Child Namespaces', function() {
+      var seven = 5;
+
+      Namespace('Namespace1.Namespace2').
+        Class('Child1', {
+          construct: function() {
+            seven++;
+          }
+        }).
+        Class('Child2', {
+          construct: function() {
+            seven++;
+          }
+        });
+
+      new Namespace1.Namespace2.Child1();
+      new Namespace1.Namespace2.Child2();
+
+      tf.assertNotEquals(Namespace1.Namespace2.Child1, undefined, 'Namespace Base.Child exists');
+      tf.assertEquals(seven, 7, 'Namespace called construct correctly in both parent and child');
+      delete Namespace1;
+    });
+
+    tf.test('Child Namespaces on custom scope', function() {
+        var seven = 5,
+          scope = {};
+
+        Namespace.call(scope, 'Namespace1.Namespace2').
+          Class('Child1', {
+            construct: function() {
+              seven++;
+            }
+          }).
+          Class('Child2', {
+            construct: function() {
+              seven++;
+            }
+          });
+
+        new scope.Namespace1.Namespace2.Child1();
+        new scope.Namespace1.Namespace2.Child2();
+
+        tf.assertNotEquals(scope.Namespace1.Namespace2.Child1, undefined, 'Namespace Base.Child exists');
+        tf.assertEquals(seven, 7, 'Namespace called construct correctly in both parent and child');
+        delete scope.Namespace1;
+    });
+
+    tf.run();
+  </script>
 </head>
 <body>
 
 </body>
 <script>
-	document.body.innerHTML = Testify.report.html.ui;
-	Testify.report.html(tf);
+  document.body.innerHTML = Testify.report.html.ui;
+  Testify.report.html(tf);
 </script>
 </html>
